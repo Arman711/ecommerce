@@ -14,6 +14,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
 
   BasketBloc(this.basketRepository) : super(BasketInitialState()) {
     on<GetAllProducts>(getAllProducts);
+    on<GetProduct>(getProduct);
   }
 
   Future<void> getAllProducts(
@@ -33,6 +34,23 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
         log('---------------');
         emit(
           BasketSuccessState(products: products),
+        );
+      },
+    );
+  }
+
+  Future<void> getProduct(GetProduct event, Emitter<BasketState> emit) async {
+    emit(BasketInitialState());
+    final response = await basketRepository.getProducts(event.productId);
+    response.fold(
+      (errorMsg) {
+        emit(
+          BasketFeilureState(errorMsg: errorMsg),
+        );
+      },
+      (product) {
+        emit(
+          GetBasketSuccessState(product: product),
         );
       },
     );

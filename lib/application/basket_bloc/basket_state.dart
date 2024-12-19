@@ -16,6 +16,11 @@ final class BasketSuccessState extends BasketState {
   const BasketSuccessState({required this.products});
 }
 
+final class GetBasketSuccessState extends BasketState {
+  final Basket product;
+  const GetBasketSuccessState({required this.product});
+}
+
 final class BasketFeilureState extends BasketState {
   final String errorMsg;
 

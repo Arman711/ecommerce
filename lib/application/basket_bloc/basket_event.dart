@@ -4,3 +4,8 @@ part of 'basket_bloc.dart';
 class BasketEvent {}
 
 class GetAllProducts extends BasketEvent {}
+
+class GetProduct extends BasketEvent {
+  final String productId;
+  GetProduct({required this.productId});
+}

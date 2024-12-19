@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:ecommerce/application/basket_bloc/basket_bloc.dart';
 import 'package:ecommerce/application/bloc/user_bloc.dart';
 import 'package:ecommerce/infrastructure/models/basket/basket.dart';
 import 'package:ecommerce/main.dart';
@@ -44,6 +45,9 @@ class _ProductCard1State extends State<ProductCard1> {
       children: [
         InkWell(
           onTap: () {
+            context.read<BasketBloc>().add(
+                  GetProduct(productId: widget.product.basketId),
+                );
             context.router.push(const ProductRoute());
           },
           child: Column(

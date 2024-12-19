@@ -1,6 +1,8 @@
+import 'package:ecommerce/application/basket_bloc/basket_bloc.dart';
 import 'package:ecommerce/presentation/core/ui/colors.dart';
 import 'package:ecommerce/presentation/product_screen/widgets/price_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductBottomSection extends StatelessWidget {
   const ProductBottomSection({super.key});
@@ -20,50 +22,65 @@ class ProductBottomSection extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Quinoa Fruit Salad',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            const Expanded(
-              child: PriceTile(),
-            ),
-            const Spacer(),
-            const Text(
-              'One Pack Contains:',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(
-              width: 180,
-              child: Divider(
-                color: AppColors.primaryColor,
-                // height: 15,
-              ),
-            ),
-            const Expanded(
-              child: Text(
-                'Red Quinoa, Lime, Honey, Blueberries, Strawberries, Mango, Fresh mint.',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-            const Spacer(),
-            const Expanded(
-              child: Text(
-                  'If you are looking for a new fruit salad to eat today, quinoa is the perfect brunch for you. make'),
-            ),
-            const Spacer(),
-          ],
+        child: BlocBuilder<BasketBloc, BasketState>(
+          builder: (context, state) {
+            if (state is BasketFeilureState) {
+              return Center(
+                child: Text(state.errorMsg),
+              );
+            }
+            if (state is GetBasketSuccessState) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    state.product.basketName,
+                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  Expanded(
+                    child: PriceTile(
+                      price: state.product.price,
+                    ),
+                  ),
+                  const Spacer(),
+                  const Text(
+                    'One Pack Contains:',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 180,
+                    child: Divider(
+                      color: AppColors.primaryColor,
+                      // height: 15,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      state.product.menu,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  Expanded(
+                    child: Text(state.product.description),
+                  ),
+                  const Spacer(),
+                ],
+              );
+            }
+            return const Center(
+              child: Text('--------------------------------'),
+            );
+          },
         ),
       ),
     );

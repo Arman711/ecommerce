@@ -1,6 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:ecommerce/application/bloc/user_bloc.dart';
+import 'package:ecommerce/infrastructure/models/basket/basket.dart';
 import 'package:ecommerce/presentation/core/ui/colors.dart';
+import 'package:ecommerce/presentation/order_screen/favorites_service/favorite_service.dart';
 import 'package:ecommerce/presentation/order_screen/widgets/checkout.dart';
 import 'package:ecommerce/presentation/order_screen/widgets/order_product_card.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ class OrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FavoriteService _favoriteService = FavoriteService();
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
@@ -59,26 +62,53 @@ class OrderScreen extends StatelessWidget {
           child: Stack(
             // alignment: AlignmentDirectional.bottomCenter,
             children: [
-              BlocBuilder<UserBloc, UserState>(
-                builder: (context, state) {
-                  if (state is UserFavoriteProductsSuccessState) {
-                    return ListView.separated(
-                        itemBuilder: (context, index) {
-                          return OrderProductCard(
-                            productName:
-                                state.favoriteProducts[index].basketName,
-                            price: state.favoriteProducts[index].price,
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(
-                            height: 42,
-                          );
-                        },
-                        itemCount: state.favoriteProducts.length);
-                  } else {
-                    return const SizedBox();
+              // BlocBuilder<UserBloc, UserState>(
+              //   builder: (context, state) {
+              //     if (state is UserFavoriteProductsSuccessState) {
+              //       return ListView.separated(
+              //           itemBuilder: (context, index) {
+              //             return OrderProductCard(
+              //               productName:
+              //                   state.favoriteProducts[index].basketName,
+              //               price: state.favoriteProducts[index].price,
+              //             );
+              //           },
+              //           separatorBuilder: (context, index) {
+              //             return const SizedBox(
+              //               height: 42,
+              //             );
+              //           },
+              //           itemCount: state.favoriteProducts.length);
+              //     } else {
+              //       return const SizedBox();
+              //     }
+              //   },
+              // ),
+              StreamBuilder<List<Basket>>(
+                stream: _favoriteService.getFavoriteProducts(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Text('No favorite products');
                   }
+                  final favoriteProducts = snapshot.data!;
+                  return ListView.separated(
+                    itemBuilder: (context, index) {
+                      return OrderProductCard(
+                        productName: favoriteProducts[index].basketName,
+                        price: favoriteProducts[index].price,
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 42,
+                      );
+                    },
+                    itemCount: favoriteProducts.length,
+                  );
                 },
               ),
               const Checkout(),

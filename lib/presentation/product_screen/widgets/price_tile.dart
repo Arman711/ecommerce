@@ -2,7 +2,8 @@ import 'package:ecommerce/presentation/core/ui/colors.dart';
 import 'package:flutter/material.dart';
 
 class PriceTile extends StatefulWidget {
-  const PriceTile({super.key});
+  final double price;
+  const PriceTile({super.key, required this.price});
 
   @override
   State<PriceTile> createState() => _PriceTileState();
@@ -70,9 +71,9 @@ class _PriceTileState extends State<PriceTile> {
           ),
           const Spacer(),
           const Icon(Icons.attach_money_outlined),
-          const Text(
-            '2000',
-            style: TextStyle(fontSize: 24),
+          Text(
+            '${widget.price}',
+            style: const TextStyle(fontSize: 24),
           ),
         ],
       ),

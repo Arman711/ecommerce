@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/application/basket_bloc/basket_bloc.dart';
 import 'package:ecommerce/infrastructure/models/basket/basket.dart';
 import 'package:ecommerce/lc.dart';
@@ -11,9 +12,8 @@ class RecomentedProductsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final CollectionReference firestore =
-    //     FirebaseFirestore.instance.collection('baskets');
-    // context.read<BasketBloc>().add(GetAllProducts());
+    final Stream<QuerySnapshot> productStream =
+        FirebaseFirestore.instance.collection('baskets').snapshots();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,39 +28,74 @@ class RecomentedProductsSection extends StatelessWidget {
         const SizedBox(
           height: 24,
         ),
-        BlocBuilder<BasketBloc, BasketState>(
-          builder: (context, basketState) {
-            if (basketState is BasketLoadingState) {
+        StreamBuilder<QuerySnapshot>(
+          stream: productStream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
-            } else if (basketState is BasketSuccessState) {
-              List<Basket> products = basketState.products;
-              return SizedBox(
-                width: double.infinity,
-                height: 182,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: basketState.products.length,
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(
-                      width: 22,
-                    );
-                  },
-                  itemBuilder: (context, index) {
-                    Basket product = products[index];
-
-                    return ProductCard1(
-                      productName: product.basketName,
-                      price: product.price,
-                      product: product,
-                    );
-                  },
-                ),
-              );
-            } else {
-              return const Text('data');
             }
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+            final products = snapshot.data!.docs;
+            return SizedBox(
+              width: double.infinity,
+              height: 182,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: products.length,
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    width: 22,
+                  );
+                },
+                itemBuilder: (context, index) {
+                  Basket product = Basket.fromJson(
+                      products[index].data() as Map<String, dynamic>);
+
+                  return ProductCard1(
+                    productName: product.basketName,
+                    price: product.price,
+                    product: product,
+                  );
+                },
+              ),
+            );
           },
         ),
+        // BlocBuilder<BasketBloc, BasketState>(
+        //   builder: (context, basketState) {
+        //     if (basketState is BasketLoadingState) {
+        //       return const CircularProgressIndicator();
+        //     } else if (basketState is BasketSuccessState) {
+        //       List<Basket> products = basketState.products;
+        //       return SizedBox(
+        //         width: double.infinity,
+        //         height: 182,
+        //         child: ListView.separated(
+        //           scrollDirection: Axis.horizontal,
+        //           itemCount: basketState.products.length,
+        //           separatorBuilder: (context, index) {
+        //             return const SizedBox(
+        //               width: 22,
+        //             );
+        //           },
+        //           itemBuilder: (context, index) {
+        //             Basket product = products[index];
+
+        //             return ProductCard1(
+        //               productName: product.basketName,
+        //               price: product.price,
+        //               product: product,
+        //             );
+        //           },
+        //         ),
+        //       );
+        //     } else {
+        //       return const Text('data');
+        //     }
+        //   },
+        // ),
         // StreamBuilder(
         //     stream: firestore.snapshots(),
         //     builder: (context, snapshot) {

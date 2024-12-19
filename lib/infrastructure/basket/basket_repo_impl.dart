@@ -27,4 +27,20 @@ class BasketRepoImpl implements IBasketRepository {
       return const Left('Get products feilure');
     }
   }
+
+  @override
+  Future<Either<String, Basket>> getProducts(String productId) async {
+    try {
+      DocumentSnapshot basket = await collection.doc(productId).get();
+      if (basket.exists) {
+        return Right(
+          Basket.fromJson(basket.data() as Map<String, dynamic>),
+        );
+      } else {
+        return const Left('Product not found');
+      }
+    } catch (e) {
+      return Left('Error: $e');
+    }
+  }
 }
