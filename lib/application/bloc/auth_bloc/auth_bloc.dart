@@ -1,6 +1,6 @@
-import 'package:ecommerce/application/auth_bloc/auth_event.dart';
-import 'package:ecommerce/application/auth_bloc/auth_state.dart';
-import 'package:ecommerce/infrastructure/domain/i_auth_repo.dart';
+import 'package:ecommerce/application/bloc/auth_bloc/auth_event.dart';
+import 'package:ecommerce/application/bloc/auth_bloc/auth_state.dart';
+import 'package:ecommerce/domain/auth/i_auth_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {

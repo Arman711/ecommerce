@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:ecommerce/application/auth_bloc/auth_bloc.dart';
-import 'package:ecommerce/application/auth_bloc/auth_event.dart';
-import 'package:ecommerce/application/auth_bloc/auth_state.dart';
-import 'package:ecommerce/application/basket_bloc/basket_bloc.dart';
-import 'package:ecommerce/application/bloc/user_bloc.dart';
+import 'package:ecommerce/application/bloc/auth_bloc/auth_bloc.dart';
+import 'package:ecommerce/application/bloc/auth_bloc/auth_event.dart';
+import 'package:ecommerce/application/bloc/auth_bloc/auth_state.dart';
+import 'package:ecommerce/application/bloc/basket_bloc/basket_bloc.dart';
+import 'package:ecommerce/application/bloc/user_bloc/user_bloc.dart';
 import 'package:ecommerce/presentation/core/router/router.dart';
 import 'package:ecommerce/presentation/core/ui/colors.dart';
 import 'package:ecommerce/presentation/core/widgets/custom_text_field.dart';
@@ -38,12 +38,20 @@ class CreatingUserScreen extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            CustomTextField(hintText: 'Name', controller: nameController),
-            const Spacer(),
-            CustomTextField(hintText: 'email', controller: emailController),
+            CustomTextField(
+              hintText: 'Name',
+              controller: nameController,
+            ),
             const Spacer(),
             CustomTextField(
-                hintText: 'password', controller: passwordController),
+              hintText: 'email',
+              controller: emailController,
+            ),
+            const Spacer(),
+            CustomTextField(
+              hintText: 'password',
+              controller: passwordController,
+            ),
             const Spacer(),
             BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {

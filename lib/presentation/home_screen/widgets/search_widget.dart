@@ -1,4 +1,6 @@
+import 'package:ecommerce/application/bloc/search_bloc/search_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchWidget extends StatelessWidget {
   const SearchWidget({super.key});
@@ -15,19 +17,28 @@ class SearchWidget extends StatelessWidget {
               color: Colors.grey[300],
               borderRadius: BorderRadius.circular(16),
             ),
-            child: const TextField(
-              decoration: InputDecoration(
-                hintText: 'Search for fruit salad combos',
-                hintStyle: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                ),
-                border: InputBorder.none,
-              ),
+            child: BlocBuilder<SearchBloc, SearchState>(
+              builder: (context, state) {
+                return TextField(
+                  onChanged: (value) {
+                    context.read<SearchBloc>().add(
+                          SearchProduct(searchText: value),
+                        );
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'Search for fruit salad combos',
+                    hintStyle: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.grey,
+                    ),
+                    border: InputBorder.none,
+                  ),
+                );
+              },
             ),
           ),
         ),

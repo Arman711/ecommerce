@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce/infrastructure/domain/i_user_repo.dart';
+import 'package:ecommerce/domain/user/i_user_repo.dart';
 import 'package:ecommerce/infrastructure/models/basket/basket.dart';
 import 'package:ecommerce/infrastructure/models/user/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';

@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:ecommerce/application/auth_bloc/auth_bloc.dart';
-import 'package:ecommerce/application/basket_bloc/basket_bloc.dart';
-import 'package:ecommerce/application/bloc/user_bloc.dart';
+import 'package:ecommerce/application/bloc/auth_bloc/auth_bloc.dart';
+import 'package:ecommerce/application/bloc/basket_bloc/basket_bloc.dart';
+import 'package:ecommerce/application/bloc/search_bloc/search_bloc.dart';
+import 'package:ecommerce/application/bloc/user_bloc/user_bloc.dart';
 import 'package:ecommerce/firebase_options.dart';
 import 'package:ecommerce/lc.dart';
 import 'package:ecommerce/presentation/core/router/router.dart';
@@ -40,6 +41,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<BasketBloc>(
           create: (context) => lc<BasketBloc>(),
+        ),
+        BlocProvider<SearchBloc>(
+          create: (context) => lc<SearchBloc>(),
         ),
       ],
       child: MaterialApp.router(

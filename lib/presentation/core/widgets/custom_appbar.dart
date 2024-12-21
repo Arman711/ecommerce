@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:ecommerce/application/auth_bloc/auth_bloc.dart';
-import 'package:ecommerce/application/bloc/user_bloc.dart';
+import 'package:ecommerce/application/bloc/auth_bloc/auth_bloc.dart';
+import 'package:ecommerce/application/bloc/user_bloc/user_bloc.dart';
 import 'package:ecommerce/presentation/auth_screen/widgets/bottom_section.dart';
 import 'package:ecommerce/presentation/core/router/router.dart';
 import 'package:ecommerce/presentation/core/ui/colors.dart';

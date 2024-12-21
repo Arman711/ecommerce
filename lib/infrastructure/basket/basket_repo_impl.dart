@@ -1,11 +1,12 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce/infrastructure/domain/i_basket_repo.dart';
+import 'package:ecommerce/domain/basket/i_basket_repo.dart';
 import 'package:ecommerce/infrastructure/models/basket/basket.dart';
 import 'package:fpdart/src/either.dart';
 
 class BasketRepoImpl implements IBasketRepository {
+  ///----
   final CollectionReference collection =
       FirebaseFirestore.instance.collection('baskets');
 
@@ -19,6 +20,7 @@ class BasketRepoImpl implements IBasketRepository {
           return Basket.fromJson(doc.data() as Map<String, dynamic>);
         },
       ).toList();
+
       log('0000000000000');
 
       return Right(products);
@@ -29,12 +31,16 @@ class BasketRepoImpl implements IBasketRepository {
   }
 
   @override
-  Future<Either<String, Basket>> getProducts(String productId) async {
+  Future<Either<String, Basket>> getProducts({
+    required String productId,
+  }) async {
     try {
       DocumentSnapshot basket = await collection.doc(productId).get();
       if (basket.exists) {
         return Right(
-          Basket.fromJson(basket.data() as Map<String, dynamic>),
+          Basket.fromJson(
+            basket.data() as Map<String, dynamic>,
+          ),
         );
       } else {
         return const Left('Product not found');

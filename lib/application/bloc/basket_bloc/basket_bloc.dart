@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:ecommerce/infrastructure/domain/i_basket_repo.dart';
+import 'package:ecommerce/domain/basket/i_basket_repo.dart';
 import 'package:ecommerce/infrastructure/models/basket/basket.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,7 +41,8 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
 
   Future<void> getProduct(GetProduct event, Emitter<BasketState> emit) async {
     emit(BasketInitialState());
-    final response = await basketRepository.getProducts(event.productId);
+    final response =
+        await basketRepository.getProducts(productId: event.productId);
     response.fold(
       (errorMsg) {
         emit(

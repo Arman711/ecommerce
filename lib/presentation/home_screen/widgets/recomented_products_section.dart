@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce/application/basket_bloc/basket_bloc.dart';
+import 'package:ecommerce/application/bloc/basket_bloc/basket_bloc.dart';
 import 'package:ecommerce/infrastructure/models/basket/basket.dart';
 import 'package:ecommerce/lc.dart';
 import 'package:ecommerce/presentation/core/widgets/product_card.dart';

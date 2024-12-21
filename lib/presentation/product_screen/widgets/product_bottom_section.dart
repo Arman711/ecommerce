@@ -1,4 +1,4 @@
-import 'package:ecommerce/application/basket_bloc/basket_bloc.dart';
+import 'package:ecommerce/application/bloc/basket_bloc/basket_bloc.dart';
 import 'package:ecommerce/presentation/core/ui/colors.dart';
 import 'package:ecommerce/presentation/product_screen/widgets/price_tile.dart';
 import 'package:flutter/material.dart';

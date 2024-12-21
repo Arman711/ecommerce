@@ -3,5 +3,5 @@ import 'package:fpdart/fpdart.dart';
 
 abstract interface class IBasketRepository {
   Future<Either<String, List<Basket>>> getAllProducts();
-  Future<Either<String, Basket>> getProducts(String productId);
+  Future<Either<String, Basket>> getProducts({required String productId});
 }

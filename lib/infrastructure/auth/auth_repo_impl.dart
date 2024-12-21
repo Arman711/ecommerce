@@ -1,4 +1,4 @@
-import 'package:ecommerce/infrastructure/domain/i_auth_repo.dart';
+import 'package:ecommerce/domain/auth/i_auth_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:fpdart/src/unit.dart';
@@ -13,7 +13,9 @@ class AuthRepositoryImpl implements IAuthRepository {
   }) async {
     try {
       await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
       return const Right(unit);
     } on FirebaseAuthException catch (e) {
       String errorMsg;
@@ -31,13 +33,22 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<Either<String, Unit>> login(
-      {required String email, required String password}) async {
+  Future<Either<String, Unit>> login({
+    required String email,
+    required String password,
+  }) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-      return const Right(unit);
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return const Right(
+        unit,
+      );
     } catch (e) {
-      return const Left('Failure login');
+      return const Left(
+        'Failure login',
+      );
     }
   }
 }

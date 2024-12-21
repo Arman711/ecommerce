@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:ecommerce/infrastructure/domain/i_user_repo.dart';
+import 'package:ecommerce/domain/user/i_user_repo.dart';
 import 'package:ecommerce/infrastructure/models/basket/basket.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
